@@ -1,0 +1,41 @@
+create table customer(id int, name varchar(250))
+insert into customer(id, name) values(1, 'jayaram');
+select * from customer;
+insert into customer(id, name) values(5, 'thiru');
+select * from customer;
+alter table customer add column email varchar(250);
+alter table customer rename column email TO cust_email;
+alter table customer add column cust_cost int default 10;
+-- update customer set name='RAM' where id=4;
+-- insert into customer(id, name) values(5, 'thiru');
+-- select * from customer;
+-- update customer set name='SAI';
+-- update customer set name='jayaram' where id=1;
+-- update customer set name='sai' where id=2;
+-- update customer set name='vedhanvesh' where id=3;
+-- update customer set name='ram' where id=4;
+
+-- insert into customer(id, name) values(4, 'thiru');
+
+-- select * from customer;
+-- insert into customer(id, name) values(4, 'thiru');
+-- delete from customer where id=4;
+-- insert into customer(id, name) values(4, 'ram');
+-- update customer set name='RAM' where id=4 and name='ram';
+-- alter table customer add column email varchar(250);
+-- alter table customer rename column email TO cust_email;
+-- alter table customer drop column cust_email;
+-- alter table customer add column cust_cost int default 10;
+-- alter table customer add column cust_cost1 int default 5;
+-- select * from customer;
+-- select * from customer where id=5;
+-- select * from customer where name='SAI';
+-- select * from customer;
+-- select count(*) from customer;
+-- select *,(cust_cost-cust_cost1) as sub from customer;
+-- select *,(cust_cost*cust_cost1) as mul from customer;
+-- update customer set cust_cost=5 where id=3;
+-- select avg(cust_cost) as avg_cost from customer;
+-- select name from customer having avg(cust_cost)>cust_cost;
+
+select * from customer having avg(cust_cost) > 5;
