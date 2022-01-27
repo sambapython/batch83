@@ -39,3 +39,20 @@ alter table customer add column cust_cost int default 10;
 -- select name from customer having avg(cust_cost)>cust_cost;
 
 select * from customer having avg(cust_cost) > 5;
+
+
+____________________________________________________________________-
+create sequence cust_seq;
+create sequence cat_seq;
+create sequence prod_seq;
+create table category(id int primary key cat_seq, name varchar(250) notnull);
+create table product(id int primary key prod_seq, name varchar(250) notnull,
+					category foreign key references(category.id));
+create table customer(id int primary key cust_seq, 
+					  first_name varchar(250), 
+					  last_name varchar(250),
+					 address varchar(250) notnull,
+					 email varchar(250) unique,
+					 phone varchar(15) unique,
+					  gender varchar(1) default F,
+					 );
