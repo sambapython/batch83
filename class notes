@@ -42,17 +42,52 @@ select * from customer having avg(cust_cost) > 5;
 
 
 ____________________________________________________________________-
-create sequence cust_seq;
-create sequence cat_seq;
-create sequence prod_seq;
-create table category(id int primary key cat_seq, name varchar(250) notnull);
-create table product(id int primary key prod_seq, name varchar(250) notnull,
-					category foreign key references(category.id));
-create table customer(id int primary key cust_seq, 
+with sequence.
+--create sequence cat_seq start 1 increment 1;
+--create table category(id int primary key, name varchar(250) not null);
+-- insert into category(id,name) values(nextval('cat_seq'),'electronics2');
+-- drop table category; -- which deletes the table
+with serial datatype
+-- create table category(id serial primary key, name varchar(250) not null);
+-- insert into category(name) values('electronics2');
+
+create table category(id serial primary key, name varchar(250) not null);
+
+create table product(id serial primary key, name varchar(250) not null,
+					categoryid int,
+					cost money not null,
+					 constraint product_fk_category1 foreign key(categoryid) references category(id)
+					);
+
+create table customer(id serial primary key, 
 					  first_name varchar(250), 
 					  last_name varchar(250),
-					 address varchar(250) notnull,
+					 address varchar(250) not null,
 					 email varchar(250) unique,
 					 phone varchar(15) unique,
-					  gender varchar(1) default F,
+					  gender varchar(1) default 'F'
 					 );
+create table salesorder(id serial primary key,
+					   description varchar(600),
+						customerid int,
+						constraint salesorder_fk_customer1 foreign key(customerid) references customer(id)
+					   );
+create table salesproducts(id serial primary key,
+						  salesid int,
+						   productid int,
+						   quantity int not null,
+						   constraint salesproducts_fk_salesorder1 foreign key(salesid) references salesorder(id),
+						   constraint salesproducts_fk_product1 foreign key(productid) references product(id)
+						  );
+
+
+
+
+
+
+
+
+
+
+
+
