@@ -80,14 +80,95 @@ create table salesproducts(id serial primary key,
 						   constraint salesproducts_fk_product1 foreign key(productid) references product(id)
 						  );
 
+--insert into category(name) values('electronics'),('mens fashion');
+--insert into category(name) values('electronics'),('mens fashion');
+-- select * from category;
+-- alter sequence category_id_seq restart with 1;
+-- delete from category;
+-- insert into category(name) values('electronics'),('mens fashion');
+............................................................................
+delete from salesproducts;
+delete from salesorder;
+delete from product
+delete from category;
+delete from customer;
+alter sequence category_id_seq restart with 1;
+insert into category(name) values('electronics'),('mens fashion'),('mobiles'),('laptops'),('desktops'),('furniture'),('appliances'),('cosmetics'),('pets'),('womens fashion');
 
+alter sequence product_id_seq restart with 1;
+insert into product(name,categoryid,cost) values
+('android box',1,1000),('Tshirt',2,2000),( 'mi phone 7',3,3000),
+('lenovo think pad',4,4000),('dell latitude desktop',5,5000),
+('dining table',6,6000),('bred maker',7,7000),('eye lipstick',8,8000),
+('dog',9,9000),('winter wear',10,10000);
 
+alter sequence customer_id_seq restart with 1;
+insert into customer(first_name, last_name, address, email, phone, gender) values
+('guduru', 'samabasivarao','hyderabad','sambaodoo@gmail.com','9676622023','M'),
+('chary','sreekanth','mahubaubabad','sreekanth@gmail.com','9676622024','M'),
+('nalla','ashok','pragathinagar','nallaashok@gmail.com','9676622025','M'),
+('gunta','pragnya','moosapet','pragnya@gmail.com','9676622026','F'),
+('ganti','jyothi','KPHB','jyothi@gmail.com','9676622027','F'),
+('panjala', 'saikrishna','hyderabad','saikrishna@gmail.com','9676622028','M'),
+('patel','swathi','panjab','pswathi@gmail.com','9676622029','F'),
+('Rishi','Rishi','banglore','rishi@gmail.com','9676622030','M'),
+('nara','lokesh','Vijayawada','lokesh@gmail.com','9676622031','M'),
+('rajan','raji','KPHB','raji@gmail.com','9676622032','F');
 
+alter sequence salesorder_id_seq restart with 1;
+insert into salesorder(description,customerid) values
+('one product',1),
+('two products',2),
+('three produucts',3),
+('four products',4),
+('one product',5),
+('two products',6),
+('three produucts',7),
+('four products',8),
+('one product',9),
+('two products',10);
 
-
-
-
-
-
-
-
+alter sequence salesproducts_id_seq restart with 1;
+insert into salesproducts(salesid,productid,quantity) values
+(1,1,10),
+(2,1,5),
+(2,2,6),
+(3,1,4),
+(3,2,5),
+(3,3,6),
+(4,1,3),
+(4,2,4),
+(4,3,5),
+(4,4,6),
+(5,5,10),
+(6,5,3),
+(6,6,2),
+(7,7,2),
+(7,6,1),
+(7,5,3),
+(8,8,1),
+(8,9,2),
+(8,10,3),
+(8,7,5),
+(9,9,10),
+(10,1,5),
+(10,10,2),
+(11,1,1),
+(12,10,2),
+(12,9,5),
+(13,1,2),
+(13,2,3),
+(13,3,5),
+(14,9,6),
+(15,10,2),
+(15,9,4),
+(16,8,3),
+(16,7,2),
+(16,6,3),
+(17,5,1),
+(18,8,1),
+(18,9,3),
+(18,10,2),
+(19,1,3),
+(19,2,4),
+(19,3,6);

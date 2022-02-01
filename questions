@@ -1,0 +1,15 @@
+Category...
+1) get the records by sorting the name
+	select * from category order by(name);
+2) get the records by sorting the name but first 2 should be mens fahshion and womens fashion.
+	select id,name as n1,
+	case
+	    when name='mens fashion' then 'A'
+		when name='womens fashion' then 'A'
+		else name
+	END
+	from category order by(name);
+
+3) get 5 records sort by name
+
+4) get the records by sorting the name in descending order
