@@ -11,5 +11,51 @@ Category...
 	from category order by(name);
 
 3) get 5 records sort by name
+	select * from category order by(name) limit 5;
 
 4) get the records by sorting the name in descending order
+	select * from category order by(name) DESC limit 5;
+
+Product...........
+
+1) get the top 5 products based on cost.
+	select * from product order by(cost) desc limit 5;
+2) get the heighest cost product
+	select * from product order by(cost) desc limit 1;
+	select * from product where cost in (select max(cost) from product)
+3)get second most highest cost product
+	select * from product order by(cost) desc offset (select count(*) from product where cost in (select max(cost) from product)) limit 1;
+4) get unique costs
+	select distinct cost from product;
+6) find the average cost
+
+6) get the products which has lesser than average cost
+7) get the products with same name and cost.
+8) get the product rate seperation(high, low). if the cost >2000 then it's high else low[Use CASE and IIF]
+9) get the prodcuts with the given cost range.
+	select * from product where cost between '7000' and '10000'
+10) howmay products are there with highest cost.
+	select count(*) from product where cost in (select max(cost) from product)
+
+10) select the products with the exact cost match.
+	select * from product where cost in ('10000','9000');
+11) find the count of variable costs in products. in our case answer is 10
+	select count(distinct cost) from product;
+5) get the products which has duplicate costs
+
+
+
+Sales order...
+
+5) count of sales order which has two product in sales order.
+
+
+Trasaction table
+create a table for account trasactions.
+customerid    credit    debit    type
+1             2000       0       credit
+1             3000       0       credit
+1             0          1500     debit
+1             0          500     debit
+
+Get the account balance based on credit and debit records of customer.

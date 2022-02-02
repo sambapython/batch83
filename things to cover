@@ -1,0 +1,17 @@
+select
+where
+between
+groupby
+offset
+limit
+having
+like
+and 
+or
+distinct
+distict can be used in aggregate functions(AVG, SUM, MIN, MAX, COUNT)
+CHOOSE
+ IIF
+ IN
+Exists
+joins

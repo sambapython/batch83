@@ -76,8 +76,8 @@ create table salesproducts(id serial primary key,
 						  salesid int,
 						   productid int,
 						   quantity int not null,
-						   constraint salesproducts_fk_salesorder1 foreign key(salesid) references salesorder(id),
-						   constraint salesproducts_fk_product1 foreign key(productid) references product(id)
+						   constraint salesproducts_fk_salesorder1 foreign key(salesid) references salesorder(id) ondelete,
+						   constraint salesproducts_fk_product1 foreign key(productid) references product(id) ondelete ,
 						  );
 
 --insert into category(name) values('electronics'),('mens fashion');
@@ -126,7 +126,16 @@ insert into salesorder(description,customerid) values
 ('three produucts',7),
 ('four products',8),
 ('one product',9),
-('two products',10);
+('two products',10),
+('one product',1),
+('two products',2),
+('three produucts',3),
+('four products',4),
+('one product',5),
+('two products',6),
+('four products',4),
+('one product',5),
+('two products',6);
 
 alter sequence salesproducts_id_seq restart with 1;
 insert into salesproducts(salesid,productid,quantity) values
