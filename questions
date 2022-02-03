@@ -27,7 +27,7 @@ Product...........
 	select * from product order by(cost) desc offset (select count(*) from product where cost in (select max(cost) from product)) limit 1;
 4) get unique costs
 	select distinct cost from product;
-6) find the average cost
+5) find the average cost
 
 6) get the products which has lesser than average cost
 7) get the products with same name and cost.
@@ -37,17 +37,40 @@ Product...........
 10) howmay products are there with highest cost.
 	select count(*) from product where cost in (select max(cost) from product)
 
-10) select the products with the exact cost match.
+11) select the products with the exact cost match.
 	select * from product where cost in ('10000','9000');
-11) find the count of variable costs in products. in our case answer is 10
+12) find the count of variable costs in products. in our case answer is 10
 	select count(distinct cost) from product;
-5) get the products which has duplicate costs
+13) get the products which has duplicate costs
+
+14) top 5 selling products.
+	select productid, sum(quantity) as sold from salesproducts group by(productid) order by(sold) DESC limit 5;
+
+15) print productid, sold quantity
+	select productid, sum(quantity) from salesproducts group by(productid) order by(productid);
+16) print product details along with categoryname
+	select p.id,p.name,p.categoryid,c.name as categoryname 
+		from product as p, category as c
+		where p.categoryid=c.id;
 
 
 
 Sales order...
+17) number of sales orders
+	select count(*) from salesorder;
+18) print sales order id and number of products in sales order.
+	select salesid, count(productid), sum(quantity) from salesproducts group by(salesid)
+		order by(salesid);
 
-5) count of sales order which has two product in sales order.
+19) count of sales orders which has two product in sales order.
+	select salesid, count(productid) as count_products, sum(quantity) as total_products from salesproducts
+	group by(salesid) having count(productid)=2 order by(salesid);
+
+sales products...
+20) print sales products information along with product name and category name
+	select sp.salesid, sp.productid, p.name as productname, c.name as categoryname
+	from product as p, salesproducts as sp, category as c
+	where p.id=sp.productid and c.id=p.categoryid;
 
 
 Trasaction table
@@ -59,3 +82,10 @@ customerid    credit    debit    type
 1             0          500     debit
 
 Get the account balance based on credit and debit records of customer.
+1 find the customers who bought only single product
+2 which product got sold most
+3 find out total no of products sold
+4 combine two tables
+5 add an existing column of sales order into salesproduct
+6 find out the customer who has same lastname
+7 find out how many female customers exist
