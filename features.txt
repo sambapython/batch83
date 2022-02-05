@@ -1,0 +1,12 @@
+programing language
+opensource
+object oriented
+protable/platform independent
+scalable
+scripting language
+it has more modules to work with data science.
+multi threading/processing
+
+programing language                scripting language
+
+
