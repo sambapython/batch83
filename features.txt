@@ -1,4 +1,5 @@
 programing language
+dynamic type
 opensource
 object oriented
 protable/platform independent
@@ -8,5 +9,6 @@ it has more modules to work with data science.
 multi threading/processing
 
 programing language                scripting language
+
 
 
