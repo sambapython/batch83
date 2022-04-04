@@ -1,0 +1,201 @@
+// Copyright 2018 Covidien LP.
+// All Rights Reserved. The information contained herein is confidential
+// property of Covidien. The use, copying, transfer or disclosure of such
+// information is prohibited except by written agreement with Covidien.
+
+#ifndef EINSTEIN_ALARMS_AND_NOTIFICATIONS_DATATYPES_H
+#define EINSTEIN_ALARMS_AND_NOTIFICATIONS_DATATYPES_H
+
+#include <array>
+#include <cstdint>
+#include <iostream>
+
+#include "einstein/alarm_definitions/Alarms.h"
+
+#include "einstein/alarms_and_notifications/AlarmsAndNotifications.h"
+#include "einstein/alarms_and_notifications/SetClearData.h"
+
+namespace einstein
+{
+namespace alarms_and_notifications
+{
+
+static constexpr std::uint16_t TOTAL_ALARMS_AND_NOTIFICATIONS = 1000u;
+
+//Alarm and Notification Cycle is 25Hz, so time set to 40 milliseconds, timeout to 80 ms
+static constexpr std::uint8_t ALARM_AND_NOTIFICATION_CYCLE_TIME_MILLISECONDS = 40u;
+static constexpr std::uint8_t ALARM_AND_NOTIFICATION_CYCLE_TIMEOUT_MILLISECONDS = 80u;
+
+//Number of alarms sent to the GUI per cycle
+static constexpr std::uint8_t NUMBER_OF_ALARMS_PER_CYCLE = 20u;
+static constexpr std::uint8_t MINIMUM_DURATION_CYCLES = 125u; //5seconds
+
+//4 dismiss messages expected at most, 2 GUIs(ORTI,SID) that can dismiss,
+// and 2 Alarms at a time (top two alarms and notifications displayed), 2x2 therefore 4 total
+static constexpr std::size_t DISMISS_MESSAGES_PER_CYCLE = 4;
+
+static constexpr std::size_t CLIENT_ALARM_COUNTS_SIZE = 50u;
+static constexpr std::size_t ALARMS_HANDLER_ALARM_COUNT_SIZE = 100u;
+static constexpr std::size_t CLIENT_ALARM_COUNTS_BUFFER_SIZE = TOTAL_ALARMS_AND_NOTIFICATIONS/CLIENT_ALARM_COUNTS_SIZE;
+static constexpr std::size_t DEFAULT_BUFFER_SIZE = 1u;
+
+//Number of cycles that the top priority alarm will be silence for
+static constexpr std::uint16_t SILENCE_CYCLES = 750u;//30 seconds (750 * 40 ms cycles)
+
+//Number of arms on system
+static constexpr std::size_t NUMBER_OF_ARMS = 4u;
+
+static constexpr char SHMIO_PRIORITY_VECTOR[] = "alarms_priority_debug";
+
+static constexpr char SHMIO_DIAGNOSTIC_LIST[] = "diagnostic_list";
+
+static constexpr EIN_NOTCODE CENTRAL_SHUTDOWN_ERROR = EIN_NOTCODE_557;
+static constexpr EIN_NOTCODE LOCAL_SHUTDOWN_ERROR = EIN_NOTCODE_558;
+
+static constexpr std::uint32_t ALARMS_UDP_TIMEOUT = 9u;
+static constexpr std::uint_fast8_t ALARMS_NUMBER_OF_UDP_TX_ATTEMPTS = 4u;
+
+
+
+enum class AlarmPriority :
+    std::uint8_t
+{
+    NONE = 0u,
+    UNKNOWN_ID = 1u,
+    INFORMATIONAL = 2u,
+    LOW = 3u,
+    MEDIUM = 4u,
+    HIGH = 5u
+};
+
+using AlarmRanking = std::int64_t;
+
+///Led indicator specification defined by Systems
+enum class LedNumber :
+    std::uint8_t
+{
+    LED_NONE = 0u,
+    LED_1 = 1u,        //W4 Blinking White
+    LED_2 = 2u,        //W3 Pulsing White
+    LED_3 = 3u,        //W2 Solid White
+    LED_4 = 4u,        //Y2 Solid Yellow
+    LED_5 = 5u,        //B4 Blinking Blue
+    LED_6 = 6u,        //B3 Pulsing Blue
+    LED_7 = 7u,        //R4 Blinking Red
+    LED_8 = 8u,        //Y4 Blinking Yellow
+    LED_9 = 9u,        //B5 Info Alert Pattern
+    LED_10 = 10u,      //B2 Solid Blue
+    LED_11 = 11u,      //G2 Solid Green
+    LED_12 = 12u,      //BW4 Blinking Blue White
+    LED_13 = 13u,      //Off 
+    LED_DEFAULT = 14u  //Solid White
+};
+
+///Audio indicator specification defined by Usability
+enum class EarCon :
+    std::uint8_t
+{
+    EAR_CON_NONE = 0u,      //used when no ear con is to be played
+    EAR_CON_1 = 1u,         //Bonk
+    EAR_CON_2 = 2u,         //System Progress
+    EAR_CON_3 = 3u,         //Success
+    EAR_CON_4 = 4u,         //Unassigned
+    EAR_CON_5 = 5u,         //Low Level Alarm
+    EAR_CON_6 = 6u,         //Attention
+    EAR_CON_7 = 7u,         //Medium Level Alarm
+    EAR_CON_8 = 8u,         //High Level Alarm
+    EAR_CON_9 = 9u,         //Swap Finish
+    EAR_CON_10 = 10u,       //Swap PressHold
+    EAR_CON_11 = 11u,       //Surgeon Progress
+    EAR_CON_12 = 12u,       //Clutch
+    EAR_CON_13 = 13u,       //Lock
+    EAR_CON_14 = 14u,       //Unlock
+    EAR_CON_15 = 15u,       //Press and Hold
+    EAR_CON_16 = 16u,       //Coag Activation
+    EAR_CON_17 = 17u,       //Cut Activation
+    EAR_CON_18 = 18u,       //Ligasure Activation
+    EAR_CON_SILENCE = 19u   //used when ear con is to be silenced
+};
+
+enum class GuiType :
+    std::uint8_t
+{
+    NONE = 0u,
+    ORTI = 1u,
+    SID = 2u
+};
+
+enum class IndicationPersistence :
+    std::uint8_t
+{
+    NONE = 0u,
+    DISMISSIBLE = 1u,
+    PERSISTENT = 2u,
+    TRANSIENT = 3u,
+    PERSISTENT_DISMISSIBLE = 4u
+};
+
+enum class DismissRequired :
+    std::uint8_t
+{
+    NONE = 0u,
+    EITHER = 1u,
+    BOTH = 2u,
+    ORTI = 3u,
+    SID = 4u
+};
+
+enum class SubsystemRecoverability: std::uint8_t
+{
+    RECOVERABLE = 0u,
+    NON_RECOVERABLE = 1u,
+
+    NOT_APPLICABLE = 2u  // operable errors or non-errors
+};
+enum class SystemRecoverability: std::uint8_t
+{
+    RECOVERABLE = 0u,
+    NON_RECOVERABLE = 1u,
+
+    NOT_APPLICABLE = 2u  // operable errors or non-errors
+};
+std::string to_string(const AlarmPriority priority);
+
+std::string to_string(const GuiType gui);
+
+struct ResetCounts
+{
+    std::int32_t system_reset_count;
+    std::int32_t system_sc_reset_count;
+    std::int32_t system_aca1_reset_count;
+    std::int32_t system_aca2_reset_count;
+    std::int32_t system_aca3_reset_count;
+    std::int32_t system_aca4_reset_count;
+    std::int32_t subsystem_sc_reset_count;
+    std::int32_t subsystem_aca1_reset_count;
+    std::int32_t subsystem_aca2_reset_count;
+    std::int32_t subsystem_aca3_reset_count;
+    std::int32_t subsystem_aca4_reset_count;   
+
+    bool operator==(const ResetCounts & other) const;
+    bool operator!=(const ResetCounts & other) const; 
+};
+
+struct AlarmCountsData
+{
+    AlarmOrNotification id;
+    SetClearData data;
+
+    AlarmCountsData() :
+        id(ALARM_NO_ALARM),
+        data() {}
+
+    AlarmCountsData(const AlarmOrNotification & value, const SetClearData & counts) :
+        id(value),
+        data(counts) {}
+};
+
+}
+}
+
+#endif //EINSTEIN_ALARMS_AND_NOTIFICATIONS_DATATYPES_H
